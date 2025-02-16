@@ -1,6 +1,8 @@
 package authorbookee.servlet;
 
+import authorbookee.model.Author;
 import authorbookee.model.Book;
+import authorbookee.model.User;
 import authorbookee.service.BookService;
 
 import javax.servlet.ServletException;
@@ -16,8 +18,9 @@ public class BookServlet extends HttpServlet {
     private BookService bookService = new BookService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Book> allBooks = bookService.getAllBooks();
-        req.setAttribute("books", allBooks);
-        req.getRequestDispatcher("/WEB-INF/books.jsp").forward(req, resp);
+
+            List<Book> allBooks = bookService.getAllBooks();
+            req.setAttribute("books", allBooks);
+            req.getRequestDispatcher("/WEB-INF/books.jsp").forward(req, resp);
+        }
     }
-}

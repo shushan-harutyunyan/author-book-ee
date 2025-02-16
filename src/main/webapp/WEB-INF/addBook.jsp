@@ -21,9 +21,6 @@
     Price: <input type="number" name="price"><br>
     Quantity:  <input type="number" name="qty"><br>
     Author: <select name="author_id">
-    <%
-        for (Author author:uthors)
-        %>
     <option value="Male">Male</option>
     <option value="Female">Female</option>
     <br>
