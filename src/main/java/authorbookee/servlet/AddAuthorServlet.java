@@ -33,7 +33,6 @@ public class AddAuthorServlet extends HttpServlet {
             String phone = req.getParameter("phone");
             String dob = req.getParameter("dob");
             String gender = req.getParameter("gender");
-
             Author author = Author.builder()
                     .name(name)
                     .surname(surname)

@@ -16,15 +16,17 @@
 <hi>Add Book</hi>
 <a href="/books">Books Page</a>
 <a href="index.jsp">Main</a> <br>
-<form action="/addBook" method="post">
+<form action="/addBook" method="post" enctype="multipart/form-data">
     Title: <input type="text" name="title"><br>
     Price: <input type="number" name="price"><br>
     Quantity:  <input type="number" name="qty"><br>
     Author: <select name="author_id">
-    <option value="Male">Male</option>
-    <option value="Female">Female</option>
-    <br>
-</select>
+    <% for (Author author: authors){ %>
+    <option value="<%=author.getId()%>"><%=author.getName()%>
+    </option>
+    <%}%>
+</select><br>
+    <input type="file" name="img">
     <input type="submit" value="Add">
 
 </form>

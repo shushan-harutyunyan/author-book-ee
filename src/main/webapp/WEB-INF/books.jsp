@@ -17,6 +17,7 @@
 <table>
     <tr>
         <th>id</th>
+        <th>image</th>
         <th>title</th>
         <th>price</th>
         <th>qty</th>
@@ -25,6 +26,12 @@
     <% for (Book book : books){ %>
     <tr>
         <td><%=book.getId()%></td>
+        <td>
+            <% if(book.getImageName() != null && !book.getImageName().isEmpty()) {%>
+            <img src="/getImage?imageName=<%=book.getImageName()%>" width="100"></td>
+        <%} else {%>
+        <span>no image</span>
+        <%}%>
         <td><%=book.getTitle()%></td>
         <td><%=book.getPrice()%></td>
         <td><%=book.getQty()%></td>

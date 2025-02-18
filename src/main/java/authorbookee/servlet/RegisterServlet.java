@@ -27,11 +27,39 @@ public class RegisterServlet extends HttpServlet {
         String surname = req.getParameter("surname");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        UserType userType = UserType.valueOf(req.getParameter("user_type"));
+
         HttpSession session = req.getSession();
-        if (userService.getUserByEmail(email) != null) {
-            session.setAttribute("msg", "Email already in use");
-            req.getRequestDispatcher("/WEB-INF/register.jsp").forward(req, resp);
+        UserType userType = null;
+
+        StringBuilder msgBuilder = new StringBuilder();
+
+        try {
+            userType = UserType.valueOf(req.getParameter("user_type"));
+        } catch (Exception e){
+            msgBuilder.append("user type should be user or admin");
+            msgBuilder.append("<br>");
+        }
+        if (name == null || name.trim().isEmpty()) {
+            msgBuilder.append("Name is mandatory");
+            msgBuilder.append("<br>");
+        }
+        if (surname == null || surname.trim().isEmpty()) {
+            msgBuilder.append("Surname is mandatory");
+            msgBuilder.append("<br>");
+        }
+        if (email == null || email.trim().isEmpty()) {
+            msgBuilder.append("Email is mandatory");
+            msgBuilder.append("<br>");
+        }
+        if(password == null || password.trim().isEmpty() || password.length() < 6) {
+            msgBuilder.append("Password is mandatory, password must be at least 6 characters");
+            msgBuilder.append("<br>");
+        }
+        if(!msgBuilder.isEmpty()) {
+            session.setAttribute("msg", msgBuilder.toString());
+        } else if (userService.getUserByEmail(email) != null) {
+            msgBuilder.append("Email already exists");
+            msgBuilder.append("<br>");
         } else {
             User user = User.builder()
                     .name(name)
@@ -42,7 +70,6 @@ public class RegisterServlet extends HttpServlet {
                     .build();
             userService.add(user);
             session.setAttribute("msg", "User registered successfully");
-
         }
         resp.sendRedirect( "/");
     }

@@ -9,18 +9,27 @@ import authorbookee.service.AuthorService;
 import authorbookee.service.BookService;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 @WebServlet("/addBook")
+@MultipartConfig(
+        maxFileSize = 1024 * 1024 * 5,
+        maxRequestSize = 1024 * 1024 * 10,
+        fileSizeThreshold = 1024 * 1024
+)
 public class AddBookServlet extends HttpServlet {
     private AuthorService authorService = new AuthorService();
     private BookService bookService = new BookService();
+    private final String IMAGE_UPLOAD_FOLDER = "images/";
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
@@ -39,7 +48,12 @@ public class AddBookServlet extends HttpServlet {
             double price = Double.parseDouble(req.getParameter("price"));
             int quantity = Integer.parseInt(req.getParameter("quantity"));
             int authorId = Integer.parseInt(req.getParameter("authorId"));
-
+            Part img = req.getPart("img");
+            String fileName = System.currentTimeMillis() + "_" + img.getSubmittedFileName();
+            if (img != null && img.getSize() > 0) {
+                fileName = System.nanoTime() + "_" + img.getSubmittedFileName();
+                img.write(IMAGE_UPLOAD_FOLDER + fileName);
+            }
             Book book = Book.builder()
                     .title(title)
                     .price(price)
