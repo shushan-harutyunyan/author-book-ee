@@ -19,14 +19,13 @@ public class BookService {
     public void add(Book book) {
         String sql = """
         INSERT INTO book (title, price, qty, author_id, created_at, image_name)
-        VALUES ('%s', '%f', '%d', '%s', '%d', '%s');
+        VALUES ('%s', '%f', '%d', '%d', '%s', '%s');
         """.formatted(
                 book.getTitle(),
                 book.getPrice(),
                 book.getQty(),
                 book.getAuthor().getId(),
                 DateUtil.fromDateToSqlDateTimeString(book.getCreatedAt()),
-                book.getUser().getId(),
                 book.getImageName()
         );
         try {

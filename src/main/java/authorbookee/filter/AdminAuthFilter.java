@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/addAuthor", "/addBook", "deleteAuthor", "/editAuthor"})
+@WebFilter(urlPatterns = {"/addAuthor", "/addBook", "/deleteAuthor", "/editAuthor"})
 public class AdminAuthFilter extends HttpFilter {
 
     @Override

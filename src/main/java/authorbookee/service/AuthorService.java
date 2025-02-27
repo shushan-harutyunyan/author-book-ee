@@ -69,15 +69,16 @@ public class AuthorService {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             if(resultSet.next()){
-                String name = resultSet.getString("name");
-                String surname = resultSet.getString("surname");
-                String phone = resultSet.getString("phone");
-                String dob = resultSet.getString("dob");
-                String gender = resultSet.getString("gender");
-                Author author = new Author(name, surname, phone, dob, Gender.valueOf(gender));
+                Author author = new Author();
+                author.setId(resultSet.getInt("id"));
+                author.setName(resultSet.getString("name"));
+                author.setSurname(resultSet.getString("surname"));
+                author.setPhone(resultSet.getString("phone"));
+                author.setDateOfBirth(DateUtil.fromSqlStringToDate(resultSet.getString("dob")));
+                author.setGender(Gender.valueOf(resultSet.getString("gender")));
                 return author;
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ParseException e) {
             e.printStackTrace();
         }
         return null;
