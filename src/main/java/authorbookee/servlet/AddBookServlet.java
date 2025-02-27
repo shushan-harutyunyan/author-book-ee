@@ -28,7 +28,7 @@ import java.util.List;
 public class AddBookServlet extends HttpServlet {
     private AuthorService authorService = new AuthorService();
     private BookService bookService = new BookService();
-    private final String IMAGE_UPLOAD_FOLDER = "images/";
+    private final String IMAGE_UPLOAD_FOLDER = "/Users/shharutyunyan/java2024/ee/Author-Book-EE/images/";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -46,7 +46,7 @@ public class AddBookServlet extends HttpServlet {
         if (user != null && user.getUserType() == UserType.admin) {
             String title = req.getParameter("title");
             double price = Double.parseDouble(req.getParameter("price"));
-            int quantity = Integer.parseInt(req.getParameter("quantity"));
+            int quantity = Integer.parseInt(req.getParameter("qty"));
             int authorId = Integer.parseInt(req.getParameter("authorId"));
             Part img = req.getPart("img");
             String fileName = System.currentTimeMillis() + "_" + img.getSubmittedFileName();
@@ -60,9 +60,11 @@ public class AddBookServlet extends HttpServlet {
                     .qty(quantity)
                     .author(authorService.getAuthorById(authorId))
                     .createdAt(new Date())
+                    .imageName(fileName)
                     .build();
 
-
+            bookService.add(book);
+            resp.sendRedirect("/books");
         }
     }
 }
